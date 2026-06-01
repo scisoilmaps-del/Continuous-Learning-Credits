@@ -8,463 +8,229 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-
 :root {
-  --soil:   #22362C;
-  --earth:  #33483B;
-  --bark:   #526654;
-  --clay:   #A96F3C;
-  --wheat:  #D7B36A;
-  --cream:  #F8F5EC;
-  --parchment: #EFE9DA;
-  --line:   #D9D2C3;
-  --muted:  #6F766B;
-  --leaf:   #315C42;
-  --sage:   #6F8F72;
-  --moss:   #8EA77D;
-  --fog:    #F4F1E8;
-  --ink:    #1E2923;
-  --white:  #FFFFFF;
-  --warn-bg: #FFF7E8;
-  --warn-border: #D9A84E;
-  --danger: #8A3A2A;
-  --sci-earth: var(--soil);
-  --sci-clay: var(--clay);
-  --sci-leaf: var(--leaf);
-  --sci-leaf-deep: var(--soil);
-  --sci-line: var(--line);
-  --sci-soft: var(--cream);
-  --sci-muted: var(--muted);
-  --sci-ink: var(--ink);
+  --soil:#22362C; --earth:#33483B; --bark:#526654; --clay:#A96F3C;
+  --wheat:#D7B36A; --cream:#F8F5EC; --parchment:#EFE9DA; --line:#D9D2C3;
+  --muted:#6F766B; --leaf:#315C42; --sage:#6F8F72; --moss:#8EA77D;
+  --fog:#F4F1E8; --ink:#1E2923; --white:#FFFFFF;
+  --warn-bg:#FFF7E8; --warn-border:#D9A84E; --danger:#8A3A2A;
 }
-* { box-sizing: border-box; }
-html, body {
-  margin: 0;
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
-  background: transparent;
-  color: var(--sci-ink);
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  line-height: 1.45;
-  font-size: 13px;
-}
-button, input, select, textarea { font: inherit; }
-button { touch-action: manipulation; }
-.page { width: 100%; max-width: 980px; margin: 0 auto; padding: 8px; overflow-x: hidden; }
-.card, .crop-card {
-  background: var(--white);
-  border: 1px solid var(--sci-line);
-  border-radius: 8px;
-  padding: 14px;
-  margin-bottom: 10px;
-}
-.card-title, .section-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-.section-title { margin-top: 12px; margin-bottom: 8px; }
-h2, h3, h4 {
-  margin: 0;
-  color: var(--sci-earth);
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 800;
-  letter-spacing: -.01em;
-}
-h2 { font-size: 17px; }
-h3 { font-size: 15px; }
-h4 { font-size: 13px; }
-.help { color: var(--sci-muted); font-size: 11px; margin-top: 2px; }
-.input-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
-}
-.field { display: flex; flex-direction: column; gap: 6px; }
-label, .label {
-  color: var(--sci-muted);
-  font-size: 9.5px;
-  font-weight: 800;
-  letter-spacing: .11em;
-  text-transform: uppercase;
-}
-input, select, textarea {
-  width: 100%;
-  max-width: 100%;
-  min-height: 38px;
-  border: 1px solid var(--sci-line);
-  border-radius: 6px;
-  background: #fff;
-  color: var(--sci-ink);
-  padding: 8px 10px;
-  outline: none;
-}
-input[type="date"] {
-  -webkit-appearance: none;
-  appearance: none;
-  height: 38px;
-  min-height: 38px;
-  line-height: 1.2;
-  padding: 8px 10px;
-  text-align: left;
-}
-input[type="date"]::-webkit-date-and-time-value { text-align: left; min-height: 20px; line-height: 20px; padding: 0; margin: 0; }
-input[type="date"]::-webkit-calendar-picker-indicator { margin-left: auto; padding: 0; opacity: .7; }
-textarea { min-height: 38px; resize: vertical; }
-input:focus, select:focus, textarea:focus { border-color: var(--sci-clay); box-shadow: 0 0 0 3px rgba(168,85,31,.12); }
-.actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.btn {
-  border: 0;
-  border-radius: 6px;
-  padding: 8px 12px;
-  color: #fff;
-  background: var(--sci-leaf-deep);
-  cursor: pointer;
-  font-weight: 800;
-  font-size: 12px;
-  white-space: nowrap;
-}
-.btn:hover { filter: brightness(.98); }
-.btn.secondary { background: var(--sci-clay); }
-.btn.ghost { background: #fff; color: var(--sci-earth); border: 1px solid var(--sci-line); }
-.btn.danger { background: #8D3B1F; }
-.btn:disabled { opacity: .5; cursor: not-allowed; }
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(120px, 1fr));
-  gap: 6px;
-}
-.metric {
-  background: #fff;
-  border: 1px solid var(--sci-line);
-  border-radius: 6px;
-  padding: 8px;
-}
-.metric .label { margin-bottom: 4px; }
-.metric .value { font-size: 15px; font-weight: 850; color: var(--sci-earth); letter-spacing: -.03em; }
-.metric .small { font-size: 11px; color: var(--sci-muted); margin-top: 1px; }
-.metric .value.over-target { color: #315C42; }
-.metric .value.under-target { color: #A96F3C; }
-.metric .value.at-risk { color: #8A3A2A; }
-.crop-head {
-  display: grid;
-  grid-template-columns: minmax(180px, 1.2fr) minmax(115px, .55fr) auto;
-  gap: 10px;
-  align-items: end;
-  padding: 12px;
-  margin: -14px -14px 10px;
-  background: var(--sci-soft);
-  border-bottom: 1px solid var(--sci-line);
-  border-radius: 14px 14px 0 0;
-}
-.crop-stats {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  margin-bottom: 8px;
-}
-.stat { border: 1px solid var(--sci-line); background: #fff; border-radius: 6px; padding: 8px; }
-.stat .value { font-size: 16px; font-weight: 850; color: var(--sci-leaf-deep); }
-.table-wrap { overflow-x: auto; border-radius: 6px; border: 1px solid #EFE7D7; }
-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 900px; }
-th {
-  text-align: left;
-  color: var(--sci-earth);
-  background: #F4EBD9;
-  font-size: 9.5px;
-  letter-spacing: .075em;
-  text-transform: uppercase;
-  border-bottom: 1px solid var(--sci-line);
-  padding: 7px;
-  white-space: nowrap;
-}
-td { border-bottom: 1px solid #EFE7D7; padding: 5px; vertical-align: middle; background: #fff; }
-tbody tr:nth-child(even) td { background: #FDFBF7; }
-td input, td select, td textarea { min-height: 32px; padding: 5px 7px; border-radius: 8px; }
-.readonly { color: var(--sci-earth); font-weight: 800; white-space: nowrap; }
-.crop-actions, .row-actions { padding-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; }
-.note {
-  border-left: 4px solid var(--sci-clay);
-  background: var(--warn-bg);
-  color: var(--sci-earth);
-  padding: 9px 11px;
-  border-radius: 6px;
-  font-size: 12px;
-  margin-bottom: 8px;
-}
-.subnote { color: var(--sci-muted); font-size: 11px; margin: 4px 0 8px; }
-.compact-summary {
-  padding: 6px 8px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-}
-.compact-summary .card-title { margin-bottom: 5px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.compact-summary h2 { font-size: 12px; line-height: 1; margin: 0; }
-.compact-summary .help { display: none; }
-.compact-summary .summary-grid { grid-template-columns: repeat(6, minmax(80px, 1fr)); gap: 3px; }
-.compact-summary .metric { padding: 3px 5px; border-radius: 5px; min-height: 0; background: #FDFBF7; }
-.compact-summary .metric .label { font-size: 7px; line-height: 1.05; letter-spacing: .06em; margin-bottom: 1px; }
-.compact-summary .metric .value { font-size: 10.5px; line-height: 1.05; }
-.compact-summary .metric .small { display: none; }
-.crop-pager {
-  background: var(--white);
-  border: 1px solid var(--sci-line);
-  border-radius: 8px;
-  padding: 8px;
-  margin-bottom: 10px;
-}
-.crop-tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
-.crop-tab {
-  border: 1px solid var(--sci-line);
-  background: #fff;
-  color: var(--sci-earth);
-  border-radius: 6px;
-  padding: 6px 10px;
-  font-size: 11px;
-  font-weight: 850;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.crop-tab.active { background: var(--sci-leaf-deep); color: #fff; border-color: var(--sci-leaf-deep); }
-.crop-nav { display: flex; justify-content: space-between; gap: 8px; align-items: center; margin-top: 8px; }
-.crop-page-label { color: var(--sci-muted); font-size: 11px; font-weight: 750; }
-.crop-card { display: none; }
-.crop-card.active-crop { display: block; }
-.hidden { display: none !important; }
+*{box-sizing:border-box;}
+html,body{margin:0;width:100%;max-width:100%;overflow-x:hidden;background:transparent;color:var(--ink);font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.45;font-size:13px;}
+button,input,select,textarea{font:inherit;}
+button{touch-action:manipulation;}
 
-/* Screen flow */
-.screen { display: none; flex-direction: column; min-height: 100vh; }
-.screen.active { display: flex; }
-.home-content { max-width: 760px; margin: 0 auto; padding: 14px 8px 18px; }
-.feature-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 14px; }
-.feature-item { display:flex; gap:10px; align-items:flex-start; background: var(--cream); border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
-.fi-icon { width: 34px; height: 34px; display:flex; align-items:center; justify-content:center; background: var(--parchment); border-radius: 6px; }
-.fi-head { font-weight: 800; color: var(--soil); font-size: 13px; }
-.fi-sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
-.app-bar { background: var(--soil); color: var(--white); min-height: 50px; padding: 8px 10px; display:flex; align-items:center; gap:10px; position: sticky; top: 0; z-index: 10; }
-.app-bar-title { font-weight: 800; font-size: 15px; flex: 1; }
-.back-btn, .app-bar-action { border: 1px solid rgba(255,255,255,.22); background: rgba(255,255,255,.08); color: var(--white); border-radius: 6px; min-height: 34px; padding: 7px 10px; font-weight: 800; }
-.back-btn { width: 36px; padding: 0; }
-.step-bar { display:flex; align-items:center; justify-content:center; gap: 8px; background: var(--cream); border-bottom: 1px solid var(--line); padding: 8px; }
-.step-item { display:flex; align-items:center; gap:6px; color: var(--muted); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; }
-.step-dot { width: 9px; height:9px; border-radius: 4px; background: var(--line); }
-.step-item.active { color: var(--leaf); }
-.step-item.active .step-dot, .step-item.done .step-dot { background: var(--leaf); }
-.content { width: 100%; max-width: 980px; margin: 0 auto; padding: 10px 8px 16px; }
-.content-wide { width: 100%; max-width: 1180px; margin: 0 auto; padding: 8px 6px 16px; }
-.section-head { margin: 6px 0 10px; }
-.section-head h2 { font-family:'DM Serif Display', Georgia, serif; font-size: 24px; font-weight: 400; color: var(--soil); }
-.section-head .sub { color: var(--muted); font-size: 13px; margin-top: 3px; }
-.btn-primary, .btn-secondary, .btn-clay, .btn-ghost { border: 0; border-radius: 6px; min-height: 44px; padding: 10px 14px; font-weight: 800; }
-.btn-primary { width:100%; background: var(--leaf); color: var(--white); }
-.btn-secondary { background: var(--parchment); color: var(--soil); border: 1px solid var(--line); }
-.btn-clay { background: var(--clay); color: var(--white); }
-.btn-ghost { background: var(--cream); color: var(--leaf); border: 1px solid var(--line); }
-.btn-row { display:flex; gap: 8px; margin-top: 10px; }
-.qa-box { border: 1px solid var(--line); border-left: 4px solid var(--clay); background: #FFF8EA; border-radius: 8px; padding: 8px 10px; margin: 8px 0; color: var(--soil); font-size: 12px; font-weight: 700; }
-.summary-report { display:grid; gap:10px; }
-.summary-report .summary-card { background: var(--white); border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
-.summary-report .summary-title { font-family:'DM Serif Display', Georgia, serif; color: var(--soil); font-size: 22px; margin-bottom: 4px; }
-.summary-report .summary-sub { color: var(--muted); font-size: 12px; margin-bottom: 10px; }
-.summary-report .mini-grid { display:grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 10px; }
+/* ── Layout ── */
+.screen{display:none;flex-direction:column;min-height:100vh;}
+.screen.active{display:flex;}
+.home-content{max-width:760px;margin:0 auto;padding:14px 8px 18px;}
+.content{width:100%;max-width:980px;margin:0 auto;padding:10px 8px 16px;}
+.content-wide{width:100%;max-width:1080px;margin:0 auto;padding:8px 6px 16px;}
+.hidden{display:none!important;}
 
-/* Progress bar for credit target */
-.credit-progress-wrap { margin: 8px 0 4px; }
-.credit-progress-label { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); font-weight: 800; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 4px; }
-.credit-progress-track { height: 8px; background: var(--parchment); border-radius: 999px; border: 1px solid var(--line); overflow: hidden; }
-.credit-progress-fill { height: 100%; border-radius: 999px; background: var(--leaf); transition: width .4s ease; }
-.credit-progress-fill.over { background: #315C42; }
-.credit-progress-fill.danger { background: #A96F3C; }
+/* ── App bar / step bar ── */
+.app-bar{background:var(--soil);color:#fff;min-height:50px;padding:8px 10px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10;}
+.app-bar-title{font-weight:800;font-size:15px;flex:1;}
+.back-btn,.app-bar-action{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#fff;border-radius:6px;min-height:34px;padding:7px 10px;font-weight:800;}
+.back-btn{width:36px;padding:0;}
+.step-bar{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--cream);border-bottom:1px solid var(--line);padding:8px;}
+.step-item{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;}
+.step-dot{width:9px;height:9px;border-radius:4px;background:var(--line);}
+.step-item.active{color:var(--leaf);}
+.step-item.active .step-dot,.step-item.done .step-dot{background:var(--leaf);}
 
-/* Learning table layout — mirrors diesel-table */
-.learning-table,
-.learning-table tbody,
-.learning-table tr,
-.learning-table td { width: 100%; }
-.learning-table { min-width: 0 !important; border-collapse: separate; border-spacing: 0; }
-.learning-table thead { display: none; }
-.learning-table tbody.learning-body { display: grid; gap: 10px; }
-.learning-table tr.learning-row {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-  background: #FDFBF7;
-  border: 1px solid #EFE7D7;
-  border-radius: 7px;
-  padding: 9px;
-}
-.learning-table td {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  border-bottom: 0;
-  padding: 0;
-  background: transparent !important;
-  min-width: 0;
-}
-.learning-table td::before {
-  color: var(--sci-muted);
-  font-size: 8.5px;
-  font-weight: 850;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  content: attr(data-label);
-}
-.learning-table td input,
-.learning-table td select,
-.learning-table td textarea { min-height: 38px; }
-.learning-table td.readonly,
-.learning-table td.calc-output {
-  min-height: 38px;
-  justify-content: center;
-  border: 1px solid var(--sci-line);
-  border-radius: 8px;
-  background: #fff !important;
-  padding: 6px 7px;
-  color: var(--sci-earth);
-  font-weight: 850;
-}
-.learning-table .notes-cell { grid-column: span 2; }
-.learning-table td:last-child { grid-column: 1 / -1; align-items: flex-end; }
-.learning-table td:last-child::before { display: none; content: ''; }
-.learning-table td:last-child .btn { width: auto; min-height: 34px; }
-.table-wrap:has(.learning-table) { overflow-x: hidden !important; border: 0; border-radius: 0; }
+/* ── Cards ── */
+.card,.person-card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px;margin-bottom:10px;}
+.card-title{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px;}
+.section-title{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-top:12px;margin-bottom:8px;}
+h2,h3,h4{margin:0;color:var(--earth);font-weight:800;letter-spacing:-.01em;}
+h2{font-size:17px;}h3{font-size:15px;}h4{font-size:13px;}
+.help{color:var(--muted);font-size:11px;margin-top:2px;}
+.section-head{margin:6px 0 10px;}
+.section-head h2{font-family:'DM Serif Display',Georgia,serif;font-size:24px;font-weight:400;color:var(--soil);}
+.section-head .sub{color:var(--muted);font-size:13px;margin-top:3px;}
 
-/* Credit badge on entries */
-.credit-badge {
-  display: inline-flex; align-items: center; justify-content: center;
-  background: var(--leaf); color: #fff;
-  border-radius: 4px; font-size: 10px; font-weight: 800;
-  padding: 2px 7px; min-width: 28px;
-}
+/* ── Form fields ── */
+.input-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+.field{display:flex;flex-direction:column;gap:6px;}
+label,.label{color:var(--muted);font-size:9.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;}
+input,select,textarea{width:100%;max-width:100%;min-height:38px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);padding:8px 10px;outline:none;}
+input[type="date"]{-webkit-appearance:none;appearance:none;height:38px;min-height:38px;}
+textarea{min-height:38px;resize:vertical;}
+input:focus,select:focus,textarea:focus{border-color:var(--clay);box-shadow:0 0 0 3px rgba(168,85,31,.12);}
 
-/* Reference card */
-.ref-card {
-  background: var(--parchment);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 10px 12px;
-  margin-bottom: 10px;
-}
-.ref-card h4 { color: var(--soil); margin-bottom: 6px; font-size: 12px; }
-.ref-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; }
-.ref-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--muted); border-bottom: 1px solid var(--line); padding: 4px 0; }
-.ref-row:last-child { border-bottom: 0; }
-.ref-row strong { color: var(--soil); }
-.ref-badge { background: var(--leaf); color: #fff; border-radius: 4px; font-size: 10px; font-weight: 800; padding: 2px 7px; }
+/* ── Buttons ── */
+.btn{border:0;border-radius:6px;padding:8px 12px;color:#fff;background:var(--soil);cursor:pointer;font-weight:800;font-size:12px;white-space:nowrap;}
+.btn.ghost{background:#fff;color:var(--earth);border:1px solid var(--line);}
+.btn.danger{background:#8D3B1F;}
+.btn.secondary{background:var(--clay);}
+.btn-primary,.btn-clay,.btn-secondary,.btn-ghost{border:0;border-radius:6px;min-height:44px;padding:10px 14px;font-weight:800;}
+.btn-primary{width:100%;background:var(--leaf);color:#fff;}
+.btn-clay{background:var(--clay);color:#fff;}
+.btn-secondary{background:var(--parchment);color:var(--soil);border:1px solid var(--line);}
+.btn-ghost{background:var(--cream);color:var(--leaf);border:1px solid var(--line);}
+.btn-row{display:flex;gap:8px;margin-top:10px;}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
 
-/* Summary table */
-.summary-table-wrap { margin-top: 10px; }
-.summary-table-wrap table { min-width: 600px; }
+/* ── QA box ── */
+.qa-box{border:1px solid var(--line);border-left:4px solid var(--clay);background:#FFF8EA;border-radius:8px;padding:8px 10px;margin:8px 0;color:var(--soil);font-size:12px;font-weight:700;}
+.note{border-left:4px solid var(--clay);background:var(--warn-bg);color:var(--earth);padding:9px 11px;border-radius:6px;font-size:12px;margin-bottom:8px;}
 
-/* On-farm research note pill */
-.research-pill {
-  display: inline-block;
-  background: #EAF0E8; color: var(--leaf); border: 1px solid #C5D9C2;
-  border-radius: 4px; font-size: 9px; font-weight: 800;
-  padding: 1px 6px; letter-spacing: .04em; margin-left: 4px;
-  text-transform: uppercase;
-}
+/* ── Summary strip ── */
+.compact-summary{padding:6px 8px;margin-bottom:8px;border-radius:8px;}
+.compact-summary .card-title{margin-bottom:5px;}
+.compact-summary h2{font-size:12px;line-height:1;margin:0;}
+.compact-summary .help{display:none;}
+.summary-grid{display:grid;grid-template-columns:repeat(6,minmax(90px,1fr));gap:6px;}
+.metric{background:#fff;border:1px solid var(--line);border-radius:6px;padding:8px;}
+.metric .label{margin-bottom:4px;color:var(--muted);font-size:9.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;}
+.metric .value{font-size:15px;font-weight:800;color:var(--earth);letter-spacing:-.03em;}
+.metric .small{font-size:11px;color:var(--muted);margin-top:1px;}
+.metric .value.ok{color:#315C42;}
+.metric .value.warn{color:#A96F3C;}
+.compact-summary .metric{padding:3px 5px;border-radius:5px;background:#FDFBF7;}
+.compact-summary .metric .label{font-size:7px;letter-spacing:.06em;margin-bottom:1px;}
+.compact-summary .metric .value{font-size:10.5px;line-height:1.05;}
+.compact-summary .metric .small{display:none;}
 
-/* Responsive */
-@media (max-width: 900px) {
-  .learning-table tr.learning-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .learning-table .notes-cell { grid-column: 1 / -1; }
-}
-@media (max-width: 560px) {
-  .learning-table tr.learning-row { grid-template-columns: 1fr; gap: 7px; padding: 8px; }
-  .learning-table td:last-child .btn { width: 100%; }
-}
-@media (max-width: 1100px) {
-  .card, .crop-card { padding: 10px; border-radius: 7px; }
-  .input-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-  .crop-head { grid-template-columns: 1fr; margin: -10px -10px 8px; padding: 10px; border-radius: 12px 12px 0 0; }
-}
-@media (max-width: 760px) {
-  .page { padding: 6px; }
-  .input-grid, .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .crop-head { grid-template-columns: 1fr 1fr; }
-  .remove-person { grid-column: 1 / -1; justify-self: start; }
-  .compact-summary .summary-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; }
-}
-@media (max-width: 480px) {
-  .input-grid, .summary-grid, .crop-head { grid-template-columns: 1fr; }
-  .feature-list { grid-template-columns: 1fr; }
-  .ref-grid { grid-template-columns: 1fr; }
-  .compact-summary .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 520px) {
-  .step-item span { display:none; }
-  .app-bar-action { font-size: 12px; padding: 7px 8px; }
-  .btn-row { flex-direction: column; }
-}
-#screen-setup .input-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
-#screen-setup .field:first-child { grid-column: 1 / -1; }
-.crop-stats { display: none !important; }
+/* ── Person tabs ── */
+.crop-pager{background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px;margin-bottom:10px;}
+.crop-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;}
+.crop-tab{border:1px solid var(--line);background:#fff;color:var(--earth);border-radius:6px;padding:6px 10px;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;}
+.crop-tab.active{background:var(--soil);color:#fff;border-color:var(--soil);}
+.crop-nav{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:8px;}
+.crop-page-label{color:var(--muted);font-size:11px;font-weight:750;}
+.person-card{display:none;}
+.person-card.active-crop{display:block;}
 
-.ref-card button:hover h4 { color: var(--leaf); }
+/* ── Person header ── */
+.person-head{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;padding:12px;margin:-14px -14px 12px;background:var(--cream);border-bottom:1px solid var(--line);border-radius:8px 8px 0 0;}
+
+/* ── Progress bar ── */
+.credit-progress-wrap{margin:10px 0 12px;}
+.credit-progress-label{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);font-weight:800;letter-spacing:.05em;text-transform:uppercase;margin-bottom:5px;}
+.credit-progress-track{height:8px;background:var(--parchment);border-radius:999px;border:1px solid var(--line);overflow:hidden;}
+.credit-progress-fill{height:100%;border-radius:999px;background:var(--leaf);transition:width .4s ease;}
+.credit-progress-fill.full{background:#315C42;}
+.credit-progress-fill.low{background:var(--clay);}
+
+/* ── Entry cards (div-based, not table) ── */
+.entry-list{display:flex;flex-direction:column;gap:8px;margin-bottom:8px;}
+
+.entry-card{border:1px solid #EFE7D7;border-radius:7px;overflow:hidden;}
+
+/* collapsed state = just the summary bar */
+.entry-summary{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  background:#FDFBF7;padding:8px 10px;cursor:default;
+}
+.entry-summary-text{min-width:0;flex:1;overflow:hidden;}
+.entry-summary-title{font-weight:800;color:var(--soil);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.entry-summary-sub{color:var(--muted);font-size:10px;margin-top:1px;}
+.entry-summary-actions{display:flex;gap:5px;flex-shrink:0;}
+.entry-summary-actions .btn{min-height:28px!important;height:28px!important;padding:3px 9px!important;font-size:11px!important;}
+
+/* expanded state = the edit fields */
+.entry-body{display:none;padding:10px;background:#fff;border-top:1px solid #EFE7D7;}
+.entry-body.open{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
+.entry-body .field.full{grid-column:1/-1;}
+.entry-body .field.span2{grid-column:span 2;}
+.entry-body-actions{display:flex;justify-content:flex-end;gap:6px;grid-column:1/-1;padding-top:4px;}
+
+/* ── First-year banner ── */
+.fy-banner{display:flex;align-items:flex-start;gap:10px;background:#EAF0E8;border:1px solid #C5D9C2;border-left:4px solid var(--leaf);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--soil);line-height:1.6;margin-bottom:10px;}
+.fy-banner strong{color:var(--leaf);}
+
+/* ── Ref card ── */
+.ref-card{background:var(--parchment);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:10px;}
+.ref-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;}
+.ref-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;font-size:11px;color:var(--muted);border-bottom:1px solid var(--line);padding:5px 0;}
+.ref-row:last-child{border-bottom:0;}
+.ref-row strong{color:var(--soil);}
+.ref-badge{background:var(--leaf);color:#fff;border-radius:4px;font-size:10px;font-weight:800;padding:2px 7px;flex-shrink:0;}
+.ref-card button:hover h4{color:var(--leaf);}
+
+/* ── Home features ── */
+.feature-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:14px;}
+.feature-item{display:flex;gap:10px;align-items:flex-start;background:var(--cream);border:1px solid var(--line);border-radius:8px;padding:12px;}
+.fi-icon{width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:var(--parchment);border-radius:6px;}
+.fi-head{font-weight:800;color:var(--soil);font-size:13px;}
+.fi-sub{color:var(--muted);font-size:12px;margin-top:2px;}
+
+/* ── Summary report ── */
+.summary-report{display:grid;gap:10px;}
+.summary-card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px;}
+.summary-title{font-family:'DM Serif Display',Georgia,serif;color:var(--soil);font-size:22px;margin-bottom:4px;}
+.summary-sub{color:var(--muted);font-size:12px;margin-bottom:10px;}
+.mini-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:10px;}
+.summary-table-wrap{margin-top:10px;overflow-x:auto;}
+.summary-table-wrap table{min-width:500px;width:100%;border-collapse:collapse;}
+.summary-table-wrap th{text-align:left;background:#F4EBD9;font-size:9.5px;letter-spacing:.075em;text-transform:uppercase;padding:7px;border-bottom:1px solid var(--line);}
+.summary-table-wrap td{padding:7px;border-bottom:1px solid #EFE7D7;font-size:12px;}
+.summary-table-wrap tbody tr:nth-child(even) td{background:#FDFBF7;}
+
+/* ── Responsive ── */
+@media(max-width:760px){
+  .person-head{grid-template-columns:1fr 1fr;}
+  .person-head .remove-btn{grid-column:1/-1;}
+  .entry-body.open{grid-template-columns:1fr 1fr;}
+  .summary-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .ref-grid{grid-template-columns:1fr;}
+  .mini-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:520px){
+  .step-item span{display:none;}
+  .app-bar-action{font-size:12px;padding:7px 8px;}
+  .btn-row{flex-direction:column;}
+  .person-head,.entry-body.open{grid-template-columns:1fr;}
+  .feature-list{grid-template-columns:1fr;}
+  .summary-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
 </style>
 </head>
 <body>
 
-<!-- HOME -->
+<!-- ══ HOME ══ -->
 <div class="screen active" id="screen-home">
   <div class="home-content">
     <div class="feature-list">
-      <div class="feature-item"><div class="fi-icon">🏡</div><div class="fi-text"><div class="fi-head">Farm Setup</div><div class="fi-sub">Name, revenue tier, staff count, and crop year</div></div></div>
+      <div class="feature-item"><div class="fi-icon">🏡</div><div class="fi-text"><div class="fi-head">Farm Setup</div><div class="fi-sub">Name, revenue tier, program year, and staff count</div></div></div>
       <div class="feature-item"><div class="fi-icon">📚</div><div class="fi-text"><div class="fi-head">Person-by-Person Entry</div><div class="fi-sub">Track learning events per producer and qualifying staff</div></div></div>
-      <div class="feature-item"><div class="fi-icon">🎯</div><div class="fi-text"><div class="fi-head">Instant Credit Summary</div><div class="fi-sub">Total credits, on-farm research hours, and annual target progress</div></div></div>
+      <div class="feature-item"><div class="fi-icon">🎯</div><div class="fi-text"><div class="fi-head">Credit Progress</div><div class="fi-sub">Live progress bar and compliance status per person</div></div></div>
       <div class="feature-item"><div class="fi-icon">📥</div><div class="fi-text"><div class="fi-head">Export to CSV</div><div class="fi-sub">Download a clean spreadsheet for SCI submission records</div></div></div>
     </div>
+
     <div class="ref-card">
-      <button type="button" onclick="toggleRef()" id="refToggleBtn" style="width:100%; display:flex; align-items:center; justify-content:space-between; background:none; border:none; cursor:pointer; padding:0; text-align:left;">
+      <button type="button" onclick="toggleRef()" style="width:100%;display:flex;align-items:center;justify-content:space-between;background:none;border:none;cursor:pointer;padding:0;text-align:left;">
         <h4 style="margin:0;">§5.8 P6 Continuous Learning — Program Rules</h4>
-        <span id="refChevron" style="font-size:13px; color:var(--bark); flex-shrink:0; margin-left:8px; transition:transform .2s;">▼</span>
+        <span id="refChevron" style="font-size:13px;color:var(--bark);flex-shrink:0;margin-left:8px;transition:transform .2s;">▼</span>
       </button>
-      <div id="refBody" style="display:none; margin-top:10px;">
-      <div style="color:var(--muted); font-size:11px; margin-bottom:10px; line-height:1.6;">
-        The Producer <strong>and 20% of the Producer's staff</strong> who actively make management decisions for the Enrolled Acres must participate and provide Evidence of learning credits annually.
-      </div>
-      <div class="ref-grid">
-        <div>
-          <div style="font-size:10px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--bark); margin-bottom:5px;">Annual Credit Targets</div>
-          <div class="ref-row">
-            <span><strong>§5.8.1</strong> — Farms with annual gross revenue of <strong>$150,000 or more</strong></span>
-            <strong>24 credits/yr</strong>
+      <div id="refBody" style="display:none;margin-top:10px;">
+        <div style="color:var(--muted);font-size:11px;margin-bottom:10px;line-height:1.6;">The Producer <strong>and 20% of the Producer's staff</strong> who actively make management decisions for the Enrolled Acres must participate and provide Evidence of learning credits annually.</div>
+        <div class="ref-grid">
+          <div>
+            <div style="font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--bark);margin-bottom:5px;">Annual Credit Targets</div>
+            <div class="ref-row"><span><strong>§5.8.1</strong> — Revenue <strong>$150,000 or more</strong></span><span class="ref-badge">24 credits/yr</span></div>
+            <div class="ref-row" style="padding-left:12px;"><span style="color:var(--muted);">↳ At least 8 credits must be on-farm research</span><strong>8 research</strong></div>
+            <div class="ref-row"><span><strong>§5.8.2</strong> — Revenue <strong>under $150,000</strong></span><span class="ref-badge">16 credits/yr</span></div>
+            <div class="ref-row" style="padding-left:12px;border:0;"><span style="color:var(--muted);">↳ No on-farm research minimum applies</span></div>
+            <div class="ref-row" style="margin-top:6px;"><span><strong>§5.8.3</strong> — First year: enrollment, Farm Plan, baseline soil testing &amp; interpretive support meeting satisfy the requirement</span><span class="ref-badge" style="background:#526654;">Year 1</span></div>
           </div>
-          <div class="ref-row" style="padding-left:12px; font-size:11px;">
-            <span style="color:var(--muted);">↳ At least 8 of the 24 credits must be on-farm research</span>
-            <strong>8 research</strong>
-          </div>
-          <div class="ref-row">
-            <span><strong>§5.8.2</strong> — Small holdings or beginning farms with revenue <strong>under $150,000</strong></span>
-            <strong>16 credits/yr</strong>
-          </div>
-          <div class="ref-row" style="padding-left:12px; font-size:11px; border:0;">
-            <span style="color:var(--muted);">↳ No on-farm research minimum applies</span>
+          <div>
+            <div style="font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--bark);margin-bottom:5px;">Credit Allocation (Table 5.8)</div>
+            <div class="ref-row"><span>Relevant agricultural or regenerative webinar (1 hr)</span><span class="ref-badge">1 credit</span></div>
+            <div class="ref-row"><span>Online short-form content, agronomic consultation, or group meeting (1–3 hrs)</span><span class="ref-badge">2 credits</span></div>
+            <div class="ref-row"><span>In-person meeting, field day, conference, online content &gt;3 hrs, annual soil testing</span><span class="ref-badge">3 credits</span></div>
+            <div class="ref-row"><span>On-farm research &amp; development — test strips, flora/fauna ID, low-impact ag tech</span><span class="ref-badge">4 credits</span></div>
           </div>
         </div>
-        <div>
-          <div style="font-size:10px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--bark); margin-bottom:5px;">Credit Allocation (Table 5.8)</div>
-          <div class="ref-row"><span>Relevant agricultural or regenerative webinar (1 hr)</span><span class="ref-badge">1 credit</span></div>
-          <div class="ref-row"><span>Online short-form content, agronomic consultation, or group meeting (1–3 hrs)</span><span class="ref-badge">2 credits</span></div>
-          <div class="ref-row"><span>In-person meeting, field day, conference, online content &gt;3 hrs, annual soil testing</span><span class="ref-badge">3 credits</span></div>
-          <div class="ref-row"><span>On-farm research &amp; development — test strips, flora/fauna ID, low-impact ag tech</span><span class="ref-badge">4 credits</span></div>
-        </div>
       </div>
-      <div style="margin-top:8px; padding:7px 10px; background:#EAF0E8; border-radius:6px; font-size:11px; color:var(--leaf); font-weight:700;">
-        💡 First-year note (§5.8.3): Enrollment, completing the Farm Plan, executing baseline soil testing, and participating in the soil testing interpretive support meeting satisfy the first-year requirement. Renewal requires evidence of full annual credits.
-      </div>
-      </div><!-- end refBody -->
     </div>
     <button class="btn-primary" type="button" onclick="goTo('setup')" style="margin-bottom:16px;">Get Started →</button>
   </div>
 </div>
 
-<!-- SETUP -->
+<!-- ══ SETUP ══ -->
 <div class="screen" id="screen-setup">
   <div class="app-bar">
     <button class="back-btn" type="button" onclick="goTo('home')">←</button>
@@ -478,7 +244,7 @@ td input, td select, td textarea { min-height: 32px; padding: 5px 7px; border-ra
   <div class="content">
     <div class="section-head">
       <h2>Farm details</h2>
-      <div class="sub">Your revenue tier sets the annual credit target for everyone tracked. The Producer and 20% of management staff who make decisions on Enrolled Acres must all meet this target (§5.8).</div>
+      <div class="sub">Revenue tier sets each person's annual credit target. Program year determines whether §5.8.3 applies.</div>
     </div>
     <div id="setupQa" class="qa-box hidden"></div>
     <section class="card">
@@ -486,22 +252,28 @@ td input, td select, td textarea { min-height: 32px; padding: 5px 7px; border-ra
         <div class="field" style="grid-column:1/-1"><label for="farmName">Farm Name</label><input id="farmName" placeholder="Example: ABC Farm" /></div>
         <div class="field"><label for="preparedBy">Prepared By</label><input id="preparedBy" placeholder="Optional" /></div>
         <div class="field"><label for="cropYear">Crop Year</label><input id="cropYear" type="number" min="2020" max="2099" step="1" placeholder="2025" /></div>
-        <div class="field"><label for="revenueTier">Annual Gross Revenue (sets credit target)</label>
+        <div class="field"><label for="programYear">Program Year (§5.8.3)</label>
+          <select id="programYear">
+            <option value="renewal">Renewal Year — full credits required</option>
+            <option value="first">First Year — §5.8.3 enrollment activities satisfy requirement</option>
+          </select>
+        </div>
+        <div class="field"><label for="revenueTier">Annual Gross Revenue</label>
           <select id="revenueTier">
-            <option value="high">$150,000 or more → 24 credits/yr, 8 must be on-farm research (§5.8.1)</option>
+            <option value="high">$150,000 or more → 24 credits/yr, 8 on-farm research (§5.8.1)</option>
             <option value="low">Less than $150,000 → 16 credits/yr, no research minimum (§5.8.2)</option>
           </select>
         </div>
-        <div class="field"><label for="totalMgmtStaff">Total Staff Making Management Decisions on Enrolled Acres</label><input id="totalMgmtStaff" type="number" min="1" step="1" placeholder="e.g. 5" inputmode="numeric" /></div>
-        <div class="field"><label for="personCount">Number of People to Track (Producer + qualifying staff)</label><input id="personCount" type="number" min="1" max="20" step="1" placeholder="" inputmode="numeric" /></div>
+        <div class="field"><label for="totalMgmtStaff">Total Staff Making Management Decisions on Enrolled Acres</label><input id="totalMgmtStaff" type="number" min="0" step="1" placeholder="e.g. 5" inputmode="numeric" /></div>
+        <div class="field"><label for="personCount">Number of People to Track</label><input id="personCount" type="number" min="1" max="20" step="1" placeholder="1" inputmode="numeric" /></div>
       </div>
-      <div class="note" id="staffNote" style="margin-top:10px; display:none;"></div>
+      <div class="note hidden" id="staffNote" style="margin-top:10px;"></div>
     </section>
     <button class="btn-primary" type="button" onclick="goToSetupPeople()">Continue to People →</button>
   </div>
 </div>
 
-<!-- PEOPLE / ENTRY -->
+<!-- ══ PEOPLE / ENTRY ══ -->
 <div class="screen" id="screen-crops">
   <div class="app-bar">
     <button class="back-btn" type="button" onclick="goTo('setup')">←</button>
@@ -516,35 +288,43 @@ td input, td select, td textarea { min-height: 32px; padding: 5px 7px; border-ra
   <div class="content-wide">
     <div id="cropQa" class="qa-box hidden"></div>
 
-    <!-- Farm summary strip -->
+    <!-- First-year banner -->
+    <div id="fyBanner" class="fy-banner hidden">
+      <span style="font-size:18px;flex-shrink:0;">🌱</span>
+      <div><strong>First Year — §5.8.3 applies.</strong> Enrollment, completion of the Farm Commitment Form and Farm Plan, executing baseline soil testing, and participating in the soil testing interpretive support meeting satisfy the continuous learning requirement this year. No additional credits need to be logged. Renewal in subsequent years requires evidence of full annual credits.</div>
+    </div>
+
+    <!-- Summary strip -->
     <section class="card compact-summary">
       <div class="card-title">
-        <div><h2>Summary</h2><div class="help">Farm-level learning credits based on entries per person.</div></div>
-        <div class="actions"><button class="btn ghost" id="addCropBtn" type="button">Add Person</button></div>
+        <div><h2>Farm Summary</h2></div>
+        <div class="actions"><button class="btn ghost" id="addPersonBtn" type="button">+ Add Person</button></div>
       </div>
-      <div class="summary-grid" style="grid-template-columns: repeat(6, minmax(100px,1fr));">
-        <div class="metric"><div class="label">Annual Credit Target</div><div class="value" id="sumTarget">24</div><div class="small">Credits each person must reach</div></div>
-        <div class="metric"><div class="label">Total Credits Logged</div><div class="value" id="sumTotalCredits">0</div><div class="small">All people combined</div></div>
-        <div class="metric"><div class="label">On-Farm Research Credits</div><div class="value" id="sumResearch">0</div><div class="small">Min 8 required if ≥$150k (§5.8.1)</div></div>
-        <div class="metric"><div class="label">People With Entries</div><div class="value" id="sumPeople">0</div><div class="small">Producer + qualifying staff</div></div>
-        <div class="metric"><div class="label">Staff Required to Participate</div><div class="value" id="sumRequiredStaff">—</div><div class="small">20% of mgmt staff (§5.8)</div></div>
-        <div class="metric"><div class="label">Avg Credits vs. Target</div><div class="value" id="sumTargetMet">—</div><div class="small">Per person average</div></div>
+      <div class="summary-grid">
+        <div class="metric"><div class="label">Program Year</div><div class="value" id="sumYear">Renewal</div><div class="small">§5.8 / §5.8.3</div></div>
+        <div class="metric"><div class="label">Credit Target</div><div class="value" id="sumTarget">24</div><div class="small">Per person / year</div></div>
+        <div class="metric"><div class="label">Total Credits</div><div class="value" id="sumCredits">0</div><div class="small">All people combined</div></div>
+        <div class="metric"><div class="label">On-Farm Research</div><div class="value" id="sumResearch">0</div><div class="small">Min 8 if ≥$150k (§5.8.1)</div></div>
+        <div class="metric"><div class="label">Staff Required</div><div class="value" id="sumStaff">—</div><div class="small">20% of mgmt staff</div></div>
+        <div class="metric"><div class="label">Status</div><div class="value" id="sumStatus">—</div><div class="small">Avg vs. target</div></div>
       </div>
     </section>
 
-    <section class="crop-pager" id="cropPager">
-      <div class="crop-tabs" id="cropTabs"></div>
+    <!-- Person tabs -->
+    <section class="crop-pager" id="personPager">
+      <div class="crop-tabs" id="personTabs"></div>
       <div class="crop-nav">
-        <button class="btn ghost" id="prevCropBtn" type="button">Previous Person</button>
-        <div class="crop-page-label" id="cropPageLabel">Person 1 of 1</div>
-        <button class="btn ghost" id="nextCropBtn" type="button">Next Person</button>
+        <button class="btn ghost" id="prevBtn" type="button">← Previous</button>
+        <div class="crop-page-label" id="personPageLabel">Person 1 of 1</div>
+        <button class="btn ghost" id="nextBtn" type="button">Next →</button>
       </div>
     </section>
-    <main id="crops"></main>
+
+    <main id="personList"></main>
   </div>
 </div>
 
-<!-- SUMMARY -->
+<!-- ══ SUMMARY ══ -->
 <div class="screen" id="screen-summary">
   <div class="app-bar">
     <button class="back-btn" type="button" onclick="goTo('crops')">←</button>
@@ -569,411 +349,475 @@ td input, td select, td textarea { min-height: 32px; padding: 5px 7px; border-ra
 <script>
 'use strict';
 const MAX_PEOPLE = 20;
-let activeCropIndex = 0;
-const $ = (s, root=document) => root.querySelector(s);
-const $$ = (s, root=document) => Array.from(root.querySelectorAll(s));
-const n = v => { const x = parseFloat(v); return Number.isFinite(x) ? x : 0; };
-const f2 = v => n(v).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
-const f0 = v => Math.round(n(v)).toLocaleString();
-const esc = v => String(v??'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+let activeIdx = 0;
+const $ = (s,r=document) => r.querySelector(s);
+const $$ = (s,r=document) => Array.from(r.querySelectorAll(s));
+const n = v => { const x = parseFloat(v); return isFinite(x) ? x : 0; };
+const esc = v => String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
-// §5.8 Credit types per Table 5.8
-const LEARNING_TYPES = [
-  { value: 'webinar-1hr',    label: 'Webinar (1 hour)',                          credits: 1, research: false },
-  { value: 'short-form',     label: 'Short-form content (1–3 hrs)',               credits: 2, research: false },
-  { value: 'long-form',      label: 'Long-form / in-person / field day (3+ hrs)', credits: 3, research: false },
-  { value: 'on-farm',        label: 'On-farm research & development',             credits: 4, research: true  },
+const TYPES = [
+  {value:'webinar',    label:'Webinar (1 hr)',                              credits:1, research:false},
+  {value:'short',      label:'Short-form content / consultation (1–3 hrs)', credits:2, research:false},
+  {value:'longform',   label:'Long-form / field day / conference (3+ hrs)', credits:3, research:false},
+  {value:'onfarm',     label:'On-farm research & development',              credits:4, research:true},
 ];
 
-function getTarget() {
-  return $('#revenueTier').value === 'low' ? 16 : 24;
-}
-function getResearchTarget() {
-  return $('#revenueTier').value === 'low' ? 0 : 8;
-}
-function getRequiredStaff() {
-  const total = n($('#totalMgmtStaff').value);
-  return total > 0 ? Math.ceil(total * 0.2) : 0;
+function isFirstYear(){ return $('#programYear').value === 'first'; }
+function getTarget()  { return $('#revenueTier').value === 'low' ? 16 : 24; }
+function getResMin()  { return $('#revenueTier').value === 'low' ? 0 : 8; }
+function getReqStaff(){ const t = n($('#totalMgmtStaff').value); return t > 0 ? Math.ceil(t * 0.2) : 0; }
+
+// ── Navigation ──
+function goTo(name){
+  $$('.screen').forEach(s => s.classList.remove('active'));
+  $('#screen-'+name).classList.add('active');
+  if(name==='crops'){ updateAll(); setTimeout(()=>showPerson(activeIdx),0); }
+  if(name==='summary') renderSummary();
 }
 
-function goTo(name) {
-  $$('.screen').forEach(s => s.classList.remove('active'));
-  const screen = $('#screen-' + name);
-  if (screen) screen.classList.add('active');
-  if (name === 'crops') { updateEverything(); setTimeout(() => showCrop(activeCropIndex), 0); }
-  if (name === 'summary') renderSummaryReport();
+function showQa(id,msg){
+  const b=$('#'+id);
+  if(!b) return;
+  if(msg){b.textContent=msg;b.classList.remove('hidden');}
+  else{b.textContent='';b.classList.add('hidden');}
 }
-function showQa(id, msg) {
-  const box = $('#' + id);
-  if (!box) return;
-  if (msg) { box.textContent = msg; box.classList.remove('hidden'); }
-  else { box.textContent = ''; box.classList.add('hidden'); }
+
+// ── Setup validation ──
+function validateSetup(){
+  if(!$('#farmName').value.trim()) return{ok:false,msg:'Enter the farm name.',el:$('#farmName')};
+  if(!$('#cropYear').value.trim()) return{ok:false,msg:'Enter the crop year.',el:$('#cropYear')};
+  const c = Math.round(n($('#personCount').value));
+  if(!c||c<1) return{ok:false,msg:'Enter at least 1 person.',el:$('#personCount')};
+  if(c>MAX_PEOPLE) return{ok:false,msg:'Use 20 people or fewer.',el:$('#personCount')};
+  return{ok:true};
 }
-function validateSetup() {
-  if (!$('#farmName').value.trim()) return { ok:false, message:'Enter the farm name before continuing.', el:$('#farmName') };
-  if (!$('#cropYear').value.trim()) return { ok:false, message:'Enter the crop year before continuing.', el:$('#cropYear') };
-  let count = Math.round(n($('#personCount').value));
-  if (!count || count < 1) return { ok:false, message:'Enter at least 1 person before continuing.', el:$('#personCount') };
-  if (count > MAX_PEOPLE) return { ok:false, message:'Use 20 people or fewer.', el:$('#personCount') };
-  return { ok:true };
-}
-function goToSetupPeople() {
-  const v = validateSetup();
-  if (!v.ok) { showQa('setupQa', v.message); v.el && v.el.focus(); return; }
+
+function goToSetupPeople(){
+  const v=validateSetup();
+  if(!v.ok){showQa('setupQa',v.msg);v.el&&v.el.focus();return;}
   showQa('setupQa','');
-  syncPersonCount(Math.round(n($('#personCount').value)) || 1);
-  $('#cropsBarTitle').textContent = ($('#farmName').value.trim() || 'Farm') + ' — Learning Entries';
+  syncCount(Math.round(n($('#personCount').value))||1);
+  $('#cropsBarTitle').textContent=($('#farmName').value.trim()||'Farm')+' — Learning Entries';
+  const fy=isFirstYear();
+  fy ? $('#fyBanner').classList.remove('hidden') : $('#fyBanner').classList.add('hidden');
   goTo('crops');
 }
 
-// Revenue tier → update staff note
-$('#revenueTier').addEventListener('change', updateStaffNote);
-$('#totalMgmtStaff').addEventListener('input', updateStaffNote);
-function updateStaffNote() {
-  const note = $('#staffNote');
-  const req = getRequiredStaff();
-  const total = Math.round(n($('#totalMgmtStaff').value));
-  const target = getTarget();
-  const resTarget = getResearchTarget();
-  if (total > 0) {
-    const resLine = resTarget > 0 ? ` At least ${resTarget} of those credits must be on-farm research (§5.8.1).` : ' No on-farm research minimum applies at this revenue tier (§5.8.2).';
-    note.innerHTML = `<strong>§5.8 Who must participate:</strong> The Producer plus <strong>${req} staff member${req!==1?'s':''}</strong> (20% of ${total} management staff who make decisions on Enrolled Acres) must each provide Evidence of <strong>${target} learning credits</strong> annually.${resLine}`;
-    note.style.display = '';
+// ── Staff note ──
+function updateStaffNote(){
+  const note=$('#staffNote');
+  const req=getReqStaff();
+  const total=Math.round(n($('#totalMgmtStaff').value));
+  const target=getTarget();
+  const resMin=getResMin();
+  if(total>0){
+    const resLine=resMin>0?` At least ${resMin} of those credits must be on-farm research (§5.8.1).`:' No on-farm research minimum at this revenue tier (§5.8.2).';
+    note.innerHTML=`<strong>§5.8 Who must participate:</strong> The Producer plus <strong>${req} staff member${req!==1?'s':''}</strong> (20% of ${total} management staff) must each provide Evidence of <strong>${target} learning credits</strong> annually.${resLine}`;
+    note.classList.remove('hidden');
   } else {
-    note.innerHTML = '<strong>§5.8 Who must participate:</strong> The Producer plus 20% of all staff who actively make management decisions for the Enrolled Acres must each meet the annual credit target. Enter your total management staff count above to calculate the exact number required.';
-    note.style.display = '';
+    note.classList.add('hidden');
   }
 }
+$('#revenueTier').addEventListener('change', updateStaffNote);
+$('#totalMgmtStaff').addEventListener('input', updateStaffNote);
 
-function typeOptions(selected='') {
-  return LEARNING_TYPES.map(t =>
-    `<option value="${t.value}" ${selected===t.value?'selected':''}>${t.label} — ${t.credits} credit${t.credits>1?'s':''}</option>`
-  ).join('');
+// ── Type select options ──
+function typeOpts(sel=''){
+  return TYPES.map(t=>`<option value="${t.value}"${sel===t.value?' selected':''}>${t.label} — ${t.credits} credit${t.credits>1?'s':''}</option>`).join('');
 }
 
-function makePerson(idx) {
-  const el = document.createElement('section');
-  el.className = 'crop-card';
-  el.dataset.cropId = String(Date.now() + Math.random());
-  el.innerHTML = `
-    <div class="crop-head">
-      <div class="field"><label>Person Name / Role</label><input class="crop-name" placeholder="e.g. Jane Smith — Producer" /></div>
-      <div class="field"><label>Is this the Producer or a qualifying staff member?</label>
-        <select class="person-role">
-          <option value="producer">Producer (must meet full target — §5.8.1/5.8.2)</option>
-          <option value="staff">Staff — actively makes management decisions on Enrolled Acres (§5.8)</option>
+// ── Entry cards ──
+let entryCounter=0;
+function makeEntryCard(personEl, collapsed=false){
+  const id='entry-'+(++entryCounter);
+  const div=document.createElement('div');
+  div.className='entry-card';
+  div.dataset.entryId=id;
+  div.innerHTML=`
+    <div class="entry-summary">
+      <div class="entry-summary-text">
+        <div class="entry-summary-title">New learning event</div>
+        <div class="entry-summary-sub">Click Edit to fill in details</div>
+      </div>
+      <div class="entry-summary-actions">
+        <button class="btn ghost edit-entry" type="button">Edit</button>
+        <button class="btn danger del-entry" type="button">×</button>
+      </div>
+    </div>
+    <div class="entry-body${collapsed?'':' open'}">
+      <div class="field">
+        <label>Date</label>
+        <input type="date" class="e-date" />
+      </div>
+      <div class="field">
+        <label>Event Type</label>
+        <select class="e-type">${typeOpts()}</select>
+      </div>
+      <div class="field">
+        <label>Credits</label>
+        <input class="e-credits" readonly value="1" style="background:#F4EBD9;font-weight:800;" />
+      </div>
+      <div class="field span2">
+        <label>Event Title / Description</label>
+        <input class="e-title" placeholder="e.g. NRCS Soil Health Webinar" />
+      </div>
+      <div class="field">
+        <label>Notes</label>
+        <input class="e-notes" placeholder="Optional" />
+      </div>
+      <div class="entry-body-actions">
+        <button class="btn ghost done-entry" type="button">Done ✓</button>
+        <button class="btn danger del-entry" type="button">Remove</button>
+      </div>
+    </div>`;
+  // wire type → credits
+  const typeEl=$('.e-type',div), credEl=$('.e-credits',div);
+  typeEl.addEventListener('change',()=>{
+    const t=TYPES.find(x=>x.value===typeEl.value)||TYPES[0];
+    credEl.value=t.credits;
+    refreshSummaryBar(div);
+    calcPerson(div.closest('.person-card'));
+  });
+  // wire inputs → refresh summary bar
+  $$('input,select',div).forEach(el=>el.addEventListener('input',()=>{
+    refreshSummaryBar(div);
+    calcPerson(div.closest('.person-card'));
+  }));
+  // Edit button
+  $('.edit-entry',div).addEventListener('click',()=>openEntry(div));
+  // Done button
+  $('.done-entry',div).addEventListener('click',()=>closeEntry(div));
+  // Del buttons
+  $$('.del-entry',div).forEach(btn=>btn.addEventListener('click',()=>{
+    const person=div.closest('.person-card');
+    const list=$('.entry-list',person);
+    if($$('.entry-card',list).length>1) div.remove();
+    calcPerson(person);
+    updateAll();
+  }));
+  return div;
+}
+
+function refreshSummaryBar(card){
+  const typeEl=$('.e-type',card);
+  const t=TYPES.find(x=>x.value===(typeEl&&typeEl.value))||TYPES[0];
+  const title=$('.e-title',card).value.trim()||'Untitled event';
+  const date=$('.e-date',card).value||'No date';
+  $('.entry-summary-title',card).textContent=title;
+  $('.entry-summary-sub',card).textContent=`${date} · ${t.label} · ${t.credits} credit${t.credits>1?'s':''}`;
+}
+
+function openEntry(card){
+  const person=card.closest('.person-card');
+  // close all others in this person
+  $$('.entry-card',person).forEach(c=>{ if(c!==card) closeEntry(c); });
+  $('.entry-body',card).classList.add('open');
+}
+function closeEntry(card){
+  refreshSummaryBar(card);
+  $('.entry-body',card).classList.remove('open');
+}
+
+function addEntry(personEl){
+  // close existing open entries
+  $$('.entry-card',personEl).forEach(c=>closeEntry(c));
+  const list=$('.entry-list',personEl);
+  const card=makeEntryCard(personEl, false);
+  list.appendChild(card);
+  calcPerson(personEl);
+  updateAll();
+}
+
+// ── Person cards ──
+let personCounter=0;
+function makePerson(){
+  const el=document.createElement('section');
+  el.className='person-card';
+  el.dataset.personId=String(++personCounter);
+  el.innerHTML=`
+    <div class="person-head">
+      <div class="field">
+        <label>Person Name / Role</label>
+        <input class="p-name" placeholder="e.g. Jane Smith — Producer" />
+      </div>
+      <div class="field">
+        <label>Type</label>
+        <select class="p-role">
+          <option value="producer">Producer</option>
+          <option value="staff">Staff — makes management decisions on Enrolled Acres</option>
         </select>
       </div>
-      <button class="btn danger remove-crop" type="button">Remove</button>
-    </div>
-    <div class="crop-stats">
-      <div class="stat"><div class="label">Credits</div><div class="value person-total-credits">0</div></div>
-      <div class="stat"><div class="label">On-Farm Res.</div><div class="value person-research-credits">0</div></div>
-      <div class="stat"><div class="label">Entries</div><div class="value person-entry-count">0</div></div>
-    </div>
-    <div class="section-title">
-      <div><h3>Learning Events</h3><div class="help">Log each qualifying event. Credits auto-assign by event type per Table 5.8. The Producer and qualifying staff each need to meet the annual target independently.</div></div>
+      <button class="btn danger remove-btn" type="button">Remove</button>
     </div>
     <div class="credit-progress-wrap">
       <div class="credit-progress-label">
-        <span class="progress-label-text">This person's credits toward their annual target</span>
-        <span class="progress-label-val">0 / 24</span>
+        <span class="prog-label">Credits toward annual target</span>
+        <span class="prog-val">0 / 24</span>
       </div>
       <div class="credit-progress-track"><div class="credit-progress-fill" style="width:0%"></div></div>
     </div>
-    <div class="table-wrap">
-      <table class="learning-table">
-        <thead><tr><th>Date</th><th>Event Type</th><th>Event Title / Description</th><th>Credits</th><th>Notes</th><th></th></tr></thead>
-        <tbody class="learning-body"></tbody>
-      </table>
+    <div class="section-title">
+      <div><h3>Learning Events</h3><div class="help">Credits auto-assign by event type. Each person must meet the target independently.</div></div>
     </div>
-    <div class="crop-actions"><button class="btn ghost add-learning" type="button">Add Learning Event</button></div>`;
-  $('#crops').appendChild(el);
-  addLearningRow(el);
+    <div class="entry-list"></div>
+    <div style="padding-top:4px;">
+      <button class="btn ghost add-entry-btn" type="button">+ Add Learning Event</button>
+    </div>`;
+
+  // wire remove
+  $('.remove-btn',el).addEventListener('click',()=>{
+    if($$('.person-card').length>1){
+      const idx=$$('.person-card').indexOf(el);
+      el.remove();
+      $('#personCount').value=$$('.person-card').length;
+      activeIdx=Math.max(0,idx-1);
+      updateAll(); showPerson(activeIdx);
+    }
+  });
+  // wire add entry
+  $('.add-entry-btn',el).addEventListener('click',()=>addEntry(el));
+  // wire name → tab refresh
+  $('.p-name',el).addEventListener('input',renderTabs);
+
+  $('#personList').appendChild(el);
+  // add first entry
+  addEntry(el);
   return el;
 }
 
-function learningRowHtml() {
-  return `<tr class="learning-row">
-    <td data-label="Date"><input class="event-date" type="date" /></td>
-    <td data-label="Event Type"><select class="event-type">${typeOptions()}</select></td>
-    <td data-label="Event Title / Description"><input class="event-title" placeholder="e.g. NRCS Soil Health Webinar" /></td>
-    <td data-label="Credits" class="readonly credit-val calc-output">1</td>
-    <td data-label="Notes" class="notes-cell"><input class="notes" placeholder="Optional" /></td>
-    <td data-label=""><button class="btn danger remove-learning" type="button">×</button></td>
-  </tr>`;
+function calcPerson(personEl){
+  if(!personEl) return{total:0,research:0};
+  const fy=isFirstYear();
+  let total=0,research=0;
+  $$('.entry-card',personEl).forEach(card=>{
+    const t=TYPES.find(x=>x.value===$('.e-type',card).value)||TYPES[0];
+    total+=t.credits;
+    if(t.research) research+=t.credits;
+  });
+  personEl.dataset.credits=String(total);
+  personEl.dataset.research=String(research);
+  // update progress bar
+  const target=getTarget();
+  const fill=$('.credit-progress-fill',personEl);
+  const progVal=$('.prog-val',personEl);
+  const progLabel=$('.prog-label',personEl);
+  if(fy){
+    fill.style.width='100%';
+    fill.className='credit-progress-fill full';
+    progVal.textContent='First Year — §5.8.3 satisfied';
+    progLabel.textContent='Status';
+  } else {
+    const pct=Math.min(100,(total/target)*100);
+    fill.style.width=pct+'%';
+    fill.className='credit-progress-fill'+(pct>=100?' full':pct<50?' low':'');
+    progVal.textContent=`${total} / ${target}`;
+    progLabel.textContent='Credits toward annual target';
+  }
+  return{total,research};
 }
 
-function addLearningRow(crop) {
-  $('.learning-body', crop).insertAdjacentHTML('beforeend', learningRowHtml());
-  updateEverything();
+function syncCount(target){
+  target=Math.max(1,Math.min(MAX_PEOPLE,target));
+  while($$('.person-card').length<target) makePerson();
+  while($$('.person-card').length>target) $$('.person-card').at(-1).remove();
+  activeIdx=Math.min(activeIdx,target-1);
+  updateAll(); showPerson(activeIdx);
 }
 
-function syncPersonCount(target) {
-  target = Math.max(1, Math.min(MAX_PEOPLE, target));
-  while ($$('.crop-card').length < target) makePerson($$('.crop-card').length + 1);
-  while ($$('.crop-card').length > target) $$('.crop-card').at(-1).remove();
-  activeCropIndex = Math.min(activeCropIndex, target - 1);
-  updateEverything(); showCrop(activeCropIndex);
+function addPerson(){
+  if($$('.person-card').length>=MAX_PEOPLE) return;
+  makePerson();
+  $('#personCount').value=$$('.person-card').length;
+  activeIdx=$$('.person-card').length-1;
+  updateAll(); showPerson(activeIdx);
 }
-function addCrop() {
-  if ($$('.crop-card').length >= MAX_PEOPLE) return;
-  makePerson($$('.crop-card').length + 1);
-  $('#personCount').value = $$('.crop-card').length;
-  activeCropIndex = $$('.crop-card').length - 1;
-  updateEverything(); showCrop(activeCropIndex);
+
+function showPerson(idx){
+  const cards=$$('.person-card');
+  if(!cards.length) return;
+  activeIdx=Math.max(0,Math.min(idx,cards.length-1));
+  cards.forEach((c,i)=>c.classList.toggle('active-crop',i===activeIdx));
+  $$('.crop-tab').forEach((t,i)=>t.classList.toggle('active',i===activeIdx));
+  $('#personPageLabel').textContent=`Person ${activeIdx+1} of ${cards.length}`;
+  $('#prevBtn').disabled=activeIdx===0;
+  $('#nextBtn').disabled=activeIdx===cards.length-1;
 }
-function showCrop(index) {
-  const crops = $$('.crop-card'); if (!crops.length) return;
-  activeCropIndex = Math.max(0, Math.min(index, crops.length - 1));
-  crops.forEach((c, i) => c.classList.toggle('active-crop', i === activeCropIndex));
-  $$('.crop-tab').forEach((t, i) => t.classList.toggle('active', i === activeCropIndex));
-  $('#cropPageLabel').textContent = `Person ${activeCropIndex+1} of ${crops.length}`;
-  $('#prevCropBtn').disabled = activeCropIndex === 0;
-  $('#nextCropBtn').disabled = activeCropIndex === crops.length - 1;
-}
-function renderTabs() {
-  $('#cropTabs').innerHTML = $$('.crop-card').map((crop, i) =>
-    `<button class="crop-tab ${i===activeCropIndex?'active':''}" type="button" data-index="${i}">${esc($('.crop-name',crop).value.trim() || 'Person ' + (i+1))}</button>`
+
+function renderTabs(){
+  $('#personTabs').innerHTML=$$('.person-card').map((c,i)=>
+    `<button class="crop-tab${i===activeIdx?' active':''}" type="button" data-idx="${i}">${esc($('.p-name',c).value.trim()||'Person '+(i+1))}</button>`
   ).join('');
 }
 
-function rowCalc(row) {
-  const type = LEARNING_TYPES.find(t => t.value === $('.event-type', row).value) || LEARNING_TYPES[0];
-  $('.credit-val', row).textContent = type.credits;
-  row.dataset.credits = String(type.credits);
-  row.dataset.isResearch = type.research ? '1' : '0';
-  return { credits: type.credits, isResearch: type.research };
-}
-
-function personCalc(crop) {
-  let total = 0, research = 0, entries = 0;
-  $$('.learning-row', crop).forEach(row => {
-    const c = rowCalc(row);
-    total += c.credits;
-    if (c.isResearch) research += c.credits;
-    entries++;
+function updateAll(){
+  let grandTotal=0,grandResearch=0,withEntries=0;
+  $$('.person-card').forEach(p=>{
+    const r=calcPerson(p);
+    grandTotal+=r.total; grandResearch+=r.research;
+    if($$('.entry-card',p).length>0) withEntries++;
   });
-  // update visible stat tiles (hidden on mobile via CSS, but still calc)
-  const tc = $('.person-total-credits', crop), rc = $('.person-research-credits', crop), ec = $('.person-entry-count', crop);
-  if (tc) tc.textContent = total;
-  if (rc) rc.textContent = research;
-  if (ec) ec.textContent = entries;
-  // progress bar
-  const target = getTarget();
-  const pct = Math.min(100, (total / target) * 100);
-  const fill = $('.credit-progress-fill', crop);
-  const labelVal = $('.progress-label-val', crop);
-  if (fill) {
-    fill.style.width = pct + '%';
-    fill.className = 'credit-progress-fill' + (pct >= 100 ? ' over' : pct < 50 ? ' danger' : '');
-  }
-  if (labelVal) labelVal.textContent = `${total} / ${target}`;
-  crop.dataset.totalCredits = String(total);
-  crop.dataset.researchCredits = String(research);
-  return { total, research, entries };
-}
-
-function updateEverything() {
-  let grandTotal = 0, grandResearch = 0, peopleWithEntries = 0;
-  $$('.crop-card').forEach(crop => {
-    const c = personCalc(crop);
-    grandTotal += c.total;
-    grandResearch += c.research;
-    if (c.entries > 0) peopleWithEntries++;
-  });
-  const target = getTarget();
-  const resTarget = getResearchTarget();
-  const reqStaff = getRequiredStaff();
-  $('#sumTarget').textContent = target;
-  $('#sumTotalCredits').textContent = grandTotal;
-  $('#sumResearch').textContent = grandResearch;
-  $('#sumPeople').textContent = peopleWithEntries;
-  $('#sumRequiredStaff').textContent = reqStaff > 0 ? reqStaff : '—';
-  // Avg per person vs target
-  const avgPerPerson = peopleWithEntries > 0 ? grandTotal / peopleWithEntries : 0;
-  const metEl = $('#sumTargetMet');
-  if (avgPerPerson >= target) {
-    metEl.textContent = '✓ Yes'; metEl.className = 'value over-target';
-  } else if (avgPerPerson > 0) {
-    metEl.textContent = Math.round(avgPerPerson) + ' / ' + target; metEl.className = 'value under-target';
+  const fy=isFirstYear();
+  const target=getTarget();
+  const resMin=getResMin();
+  const reqStaff=getReqStaff();
+  $('#sumYear').textContent=fy?'First Year':'Renewal';
+  $('#sumTarget').textContent=fy?'Waived':target;
+  $('#sumCredits').textContent=fy?'§5.8.3':grandTotal;
+  $('#sumResearch').textContent=fy?'—':grandResearch;
+  $('#sumStaff').textContent=reqStaff>0?reqStaff:'—';
+  const statusEl=$('#sumStatus');
+  if(fy){
+    statusEl.textContent='✓ Satisfied'; statusEl.className='value ok';
   } else {
-    metEl.textContent = '—'; metEl.className = 'value';
+    const avg=withEntries>0?grandTotal/withEntries:0;
+    if(avg>=target){statusEl.textContent='✓ Met';statusEl.className='value ok';}
+    else if(avg>0){statusEl.textContent=Math.round(avg)+' / '+target;statusEl.className='value warn';}
+    else{statusEl.textContent='—';statusEl.className='value';}
   }
   renderTabs();
 }
 
-function goToSummary() { updateEverything(); goTo('summary'); }
+function goToSummary(){ updateAll(); goTo('summary'); }
 
-function renderSummaryReport() {
-  updateEverything();
-  const farm = $('#farmName').value.trim() || 'Farm';
-  const by = $('#preparedBy').value.trim() || 'Not specified';
-  const year = $('#cropYear').value || '—';
-  const target = getTarget();
-  const resTarget = getResearchTarget();
-  const reqStaff = getRequiredStaff();
-  let grandTotal = 0, grandResearch = 0;
-  let personRows = [];
+// ── Summary report ──
+function renderSummary(){
+  updateAll();
+  const farm=$('#farmName').value.trim()||'Farm';
+  const by=$('#preparedBy').value.trim()||'Not specified';
+  const year=$('#cropYear').value||'—';
+  const fy=isFirstYear();
+  const target=getTarget();
+  const resMin=getResMin();
+  const reqStaff=getReqStaff();
+  let grandTotal=0,grandResearch=0;
+  let rows='';
 
-  $$('.crop-card').forEach((crop, i) => {
-    const total = n(crop.dataset.totalCredits);
-    const research = n(crop.dataset.researchCredits);
-    grandTotal += total;
-    grandResearch += research;
-    const metTarget = total >= target;
-    const metResearch = resTarget === 0 || research >= resTarget;
-    const statusIcon = (metTarget && metResearch) ? '✓' : '⚠';
-    const statusColor = (metTarget && metResearch) ? '#315C42' : '#A96F3C';
-    personRows.push(`<tr>
-      <td>${esc($('.crop-name',crop).value||'Person '+(i+1))}</td>
-      <td>${esc($('.person-role',crop).value==='producer'?'Producer':'Staff')}</td>
-      <td>${$$('.learning-row',crop).length}</td>
-      <td style="font-weight:800;">${total}</td>
-      <td>${research}</td>
-      <td style="font-weight:800; color:${statusColor};">${statusIcon} ${metTarget?'Met':'Not Met'}</td>
-    </tr>`);
+  $$('.person-card').forEach((p,i)=>{
+    const total=n(p.dataset.credits);
+    const research=n(p.dataset.research);
+    grandTotal+=total; grandResearch+=research;
+    const metT=fy||total>=target;
+    const metR=fy||resMin===0||research>=resMin;
+    const ok=metT&&metR;
+    const color=ok?'#315C42':'#A96F3C';
+    const status=fy?'✓ First Year (§5.8.3)':(ok?'✓ Met':'⚠ Not Met');
+    rows+=`<tr>
+      <td>${esc($('.p-name',p).value||'Person '+(i+1))}</td>
+      <td>${$('.p-role',p).value==='producer'?'Producer':'Staff'}</td>
+      <td>${$$('.entry-card',p).length}</td>
+      <td style="font-weight:800;">${fy?'—':total}</td>
+      <td>${fy?'—':research}</td>
+      <td style="font-weight:800;color:${color};">${status}</td>
+    </tr>`;
   });
 
-  const farmMetTarget = $$('.crop-card').every(c => n(c.dataset.totalCredits) >= target);
-  const farmMetResearch = resTarget === 0 || $$('.crop-card').filter(c => $('.person-role',c).value==='producer').every(c => n(c.dataset.researchCredits) >= resTarget);
+  const farmOk=fy||$$('.person-card').every(p=>n(p.dataset.credits)>=target&&(resMin===0||n(p.dataset.research)>=resMin));
+  const statusNote=fy
+    ?'✓ First Year — §5.8.3 applies. Enrollment, Farm Plan completion, baseline soil testing, and the soil testing interpretive support meeting satisfy this year\'s requirement.'
+    :(farmOk?'✓ All tracked persons meet the annual credit target.':'⚠ One or more persons have not met the annual credit target. Add learning events before renewal.');
 
-  $('#summaryContent').innerHTML = `
+  $('#summaryContent').innerHTML=`
     <div class="summary-report">
       <div class="summary-card">
         <div class="summary-title">Continuous Learning Summary</div>
         <div class="summary-sub">${esc(farm)} · Crop Year ${esc(year)} · Prepared by ${esc(by)}</div>
         <div class="mini-grid">
-          <div class="metric"><div class="label">Annual Credit Target</div><div class="value">${target}</div><div class="small">§5.8.1–5.8.2</div></div>
-          <div class="metric"><div class="label">Total Credits Logged</div><div class="value">${grandTotal}</div><div class="small">All people combined</div></div>
-          <div class="metric"><div class="label">On-Farm Research Credits</div><div class="value">${grandResearch}</div><div class="small">Target: ${resTarget > 0 ? resTarget + ' (§5.8.1)' : 'N/A'}</div></div>
-          <div class="metric"><div class="label">Required Staff Count</div><div class="value">${reqStaff > 0 ? reqStaff : '—'}</div><div class="small">20% of mgmt staff §5.8</div></div>
+          <div class="metric"><div class="label">Program Year</div><div class="value">${fy?'First Year':'Renewal'}</div><div class="small">${fy?'§5.8.3 applies':'Full credits required'}</div></div>
+          <div class="metric"><div class="label">Credit Target</div><div class="value">${fy?'Waived':target}</div><div class="small">§5.8.1–5.8.2</div></div>
+          <div class="metric"><div class="label">Total Credits</div><div class="value">${fy?'—':grandTotal}</div><div class="small">All people</div></div>
+          <div class="metric"><div class="label">Staff Required</div><div class="value">${reqStaff>0?reqStaff:'—'}</div><div class="small">20% of mgmt staff</div></div>
         </div>
-        <div class="note" style="margin-bottom:0;">${farmMetTarget && farmMetResearch ? '✓ All tracked persons meet the annual credit target.' : '⚠ One or more persons have not yet met the annual credit target. Review entries and add additional learning events.'}</div>
+        <div class="note" style="margin-bottom:0;">${statusNote}</div>
       </div>
       <div class="summary-card">
         <h3 style="margin-bottom:10px;">Person-by-Person Results</h3>
-        <div class="summary-table-wrap"><table style="min-width:500px;">
-          <thead><tr><th>Name / Role</th><th>Type</th><th>Events</th><th>Total Credits</th><th>On-Farm Research</th><th>Annual Target</th></tr></thead>
-          <tbody>${personRows.join('')}</tbody>
+        <div class="summary-table-wrap"><table>
+          <thead><tr><th>Name</th><th>Type</th><th>Events</th><th>Credits</th><th>On-Farm Research</th><th>Status</th></tr></thead>
+          <tbody>${rows}</tbody>
         </table></div>
       </div>
     </div>`;
 }
 
-function csvEscape(v) { const s = String(v??''); return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g,'""') + '"' : s; }
+// ── CSV Export ──
+function csvEsc(v){ const s=String(v??''); return /[",\n\r]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s; }
 
-function downloadCsv() {
-  try {
-    updateEverything();
-    const farm = $('#farmName').value.trim();
-    const by = $('#preparedBy').value.trim();
-    const year = $('#cropYear').value;
-    const tier = $('#revenueTier').value === 'low' ? 'Under $150k' : '$150k or more';
-    const target = getTarget();
-    const resTarget = getResearchTarget();
-    const rows = [];
+function downloadCsv(){
+  try{
+    updateAll();
+    const farm=$('#farmName').value.trim();
+    const by=$('#preparedBy').value.trim();
+    const year=$('#cropYear').value;
+    const fy=isFirstYear();
+    const tier=$('#revenueTier').value==='low'?'Under $150k':'$150k or more';
+    const target=getTarget();
+    const resMin=getResMin();
+    const rows=[];
 
-    // Summary header block
     rows.push(['SCI Continuous Learning Credit Log']);
-    rows.push(['Farm Name', farm]);
-    rows.push(['Prepared By', by]);
-    rows.push(['Crop Year', year]);
-    rows.push(['Revenue Tier', tier]);
-    rows.push(['Annual Credit Target', target]);
-    rows.push(['On-Farm Research Target', resTarget > 0 ? resTarget : 'N/A']);
-    rows.push(['Required Staff (20% of mgmt)', getRequiredStaff() > 0 ? getRequiredStaff() : 'N/A']);
+    rows.push(['Farm Name',farm]);
+    rows.push(['Prepared By',by]);
+    rows.push(['Crop Year',year]);
+    rows.push(['Program Year',fy?'First Year (§5.8.3 — satisfied by enrollment activities)':'Renewal Year']);
+    rows.push(['Revenue Tier',tier]);
+    rows.push(['Annual Credit Target',fy?'Waived (First Year)':target]);
+    rows.push(['On-Farm Research Target',fy?'N/A':resMin>0?resMin:'N/A']);
+    rows.push(['Required Staff (20% of mgmt)',getReqStaff()>0?getReqStaff():'N/A']);
     rows.push([]);
+    rows.push(['Farm Name','Crop Year','Person Name','Role','Event #','Event Date','Event Type','Credits','Is On-Farm Research','Event Title','Notes']);
 
-    // Detail rows
-    rows.push(['Farm Name','Crop Year','Person Name','Role','Event #','Event Date','Event Type','Event Title','Credits','Is On-Farm Research','Notes']);
-    let hasAny = false;
-    $$('.crop-card').forEach((crop, pi) => {
-      const personName = $('.crop-name', crop).value || ('Person ' + (pi+1));
-      const role = $('.person-role', crop).value === 'producer' ? 'Producer' : 'Staff';
-      $$('.learning-row', crop).forEach((row, ei) => {
-        const typeVal = $('.event-type', row).value;
-        const typeObj = LEARNING_TYPES.find(t => t.value === typeVal) || LEARNING_TYPES[0];
-        rows.push([
-          farm, year, personName, role, ei+1,
-          $('.event-date', row).value,
-          typeObj.label,
-          $('.event-title', row).value,
-          typeObj.credits,
-          typeObj.research ? 'Yes' : 'No',
-          $('.notes', row).value
-        ]);
-        hasAny = true;
+    let hasAny=false;
+    $$('.person-card').forEach((p,pi)=>{
+      const name=$('.p-name',p).value||'Person '+(pi+1);
+      const role=$('.p-role',p).value==='producer'?'Producer':'Staff';
+      $$('.entry-card',p).forEach((card,ei)=>{
+        const typeVal=$('.e-type',card).value;
+        const t=TYPES.find(x=>x.value===typeVal)||TYPES[0];
+        rows.push([farm,year,name,role,ei+1,$('.e-date',card).value,t.label,t.credits,t.research?'Yes':'No',$('.e-title',card).value,$('.e-notes',card).value]);
+        hasAny=true;
       });
     });
 
-    if (!hasAny) { alert('Add at least one learning event before exporting.'); return; }
+    if(!hasAny){alert('Add at least one learning event before exporting.');return;}
 
-    const csv = '\uFEFF' + rows.map(r => r.map(csvEscape).join(',')).join('\n');
-    const safeName = (farm || 'SCI-Learning-Credits').replace(/[^a-z0-9-_]+/gi,'-').replace(/^-|-$/g,'');
-    const filename = `${safeName}-Learning-Credits-${year||'Year'}.csv`;
-    const a = document.createElement('a');
-    a.style.display = 'none';
-    a.download = filename;
-    let url = '';
-    try {
-      const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
-      url = URL.createObjectURL(blob);
-      a.href = url;
-    } catch(e) {
-      a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-    }
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-      try { document.body.removeChild(a); } catch(e) {}
-      if (url) { try { URL.revokeObjectURL(url); } catch(e) {} }
-    }, 250);
-  } catch(err) {
-    console.error('CSV export failed:', err);
-    alert('CSV export failed: ' + (err && err.message ? err.message : 'Unknown error'));
+    const csv='\uFEFF'+rows.map(r=>r.map(csvEsc).join(',')).join('\n');
+    const safeName=(farm||'SCI-Learning').replace(/[^a-z0-9-_]+/gi,'-').replace(/^-|-$/g,'');
+    const a=document.createElement('a');
+    a.style.display='none';
+    a.download=`${safeName}-Learning-Credits-${year||'Year'}.csv`;
+    try{ const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}); a.href=URL.createObjectURL(blob); }
+    catch(e){ a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv); }
+    document.body.appendChild(a); a.click();
+    setTimeout(()=>{ try{document.body.removeChild(a);}catch(e){} },250);
+  }catch(err){
+    console.error(err);
+    alert('Export failed: '+(err&&err.message?err.message:'Unknown error'));
   }
 }
-window.downloadCsv = downloadCsv;
 
-document.addEventListener('click', e => {
-  if (e.target.id === 'addCropBtn') addCrop();
-  if (e.target.id === 'prevCropBtn') showCrop(activeCropIndex - 1);
-  if (e.target.id === 'nextCropBtn') showCrop(activeCropIndex + 1);
-  if (e.target.classList.contains('crop-tab')) showCrop(Number(e.target.dataset.index));
-  if (e.target.classList.contains('add-learning')) addLearningRow(e.target.closest('.crop-card'));
-  if (e.target.classList.contains('remove-learning')) {
-    const crop = e.target.closest('.crop-card');
-    const row = e.target.closest('tr');
-    if ($$('.learning-row', crop).length > 1) row.remove();
-    updateEverything();
-  }
-  if (e.target.classList.contains('remove-crop')) {
-    const crop = e.target.closest('.crop-card');
-    if ($$('.crop-card').length > 1) {
-      const idx = $$('.crop-card').indexOf(crop);
-      crop.remove();
-      $('#personCount').value = $$('.crop-card').length;
-      activeCropIndex = Math.max(0, idx - 1);
-      updateEverything(); showCrop(activeCropIndex);
-    }
-  }
-  if (e.target.closest && e.target.closest('#exportCsvBtn')) downloadCsv();
+// ── Global event wiring ──
+document.getElementById('addPersonBtn').addEventListener('click',addPerson);
+document.getElementById('prevBtn').addEventListener('click',()=>showPerson(activeIdx-1));
+document.getElementById('nextBtn').addEventListener('click',()=>showPerson(activeIdx+1));
+document.getElementById('exportCsvBtn').addEventListener('click',downloadCsv);
+document.getElementById('personTabs').addEventListener('click',e=>{
+  const btn=e.target.closest('.crop-tab');
+  if(btn) showPerson(Number(btn.dataset.idx));
 });
-document.addEventListener('change', updateEverything);
-document.addEventListener('input', updateEverything);
-window.addEventListener('DOMContentLoaded', () => {
-  $('#cropYear').value = new Date().getFullYear();
-  $('#personCount').value = '1';
-  makePerson(1); showCrop(0); updateEverything(); updateStaffNote();
-});
-function toggleRef() {
-  const body = document.getElementById('refBody');
-  const chevron = document.getElementById('refChevron');
-  const open = body.style.display === 'none' || body.style.display === '';
-  body.style.display = open ? 'block' : 'none';
-  chevron.style.transform = open ? 'rotate(180deg)' : 'rotate(0deg)';
+
+function toggleRef(){
+  const body=document.getElementById('refBody');
+  const chev=document.getElementById('refChevron');
+  const open=body.style.display==='none'||!body.style.display;
+  body.style.display=open?'block':'none';
+  chev.style.transform=open?'rotate(180deg)':'rotate(0deg)';
 }
+
+window.addEventListener('DOMContentLoaded',()=>{
+  $('#cropYear').value=new Date().getFullYear();
+  $('#personCount').value='1';
+  updateStaffNote();
+});
 </script>
 </body>
 </html>
