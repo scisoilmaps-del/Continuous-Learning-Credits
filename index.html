@@ -169,6 +169,28 @@ input:focus,select:focus,textarea:focus{border-color:var(--clay);box-shadow:0 0 
 .summary-table-wrap td{padding:7px;border-bottom:1px solid #EFE7D7;font-size:12px;}
 .summary-table-wrap tbody tr:nth-child(even) td{background:#FDFBF7;}
 
+
+/* ── Mobile overflow / iOS-safe wrapping ── */
+.app-bar,.content,.content-wide,.home-content,.card,.summary-card,.qa-box,.note,.metric{max-width:100%;}
+.qa-box,.note,.summary-sub,.metric .small,.metric .value,.summary-table-wrap td,.summary-table-wrap th{
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+.note.summary-status-note{
+  display:block;
+  width:100%;
+  line-height:1.55;
+  white-space:normal;
+}
+.summary-table-wrap{
+  width:100%;
+  max-width:100%;
+  -webkit-overflow-scrolling:touch;
+}
+.summary-table-wrap table{
+  table-layout:auto;
+}
+
 /* ── Responsive ── */
 @media(max-width:760px){
   .person-head{grid-template-columns:1fr 1fr;}
@@ -180,11 +202,33 @@ input:focus,select:focus,textarea:focus{border-color:var(--clay);box-shadow:0 0 
 }
 @media(max-width:520px){
   .step-item span{display:none;}
-  .app-bar-action{font-size:12px;padding:7px 8px;}
+  .app-bar{gap:6px;padding:8px 8px;}
+  .app-bar-title{font-size:13px;line-height:1.15;min-width:0;overflow-wrap:anywhere;}
+  .app-bar-action{font-size:11px;padding:7px 7px;min-height:32px;flex-shrink:0;}
+  .back-btn{width:32px;min-height:32px;flex-shrink:0;}
+  .content,.content-wide{padding:8px 6px 14px;}
   .btn-row{flex-direction:column;}
+  .actions{align-items:stretch;}
+  .actions .btn,.actions button{width:100%;white-space:normal;}
   .person-head,.entry-body.open{grid-template-columns:1fr;}
+  .entry-summary{align-items:flex-start;flex-wrap:wrap;}
+  .entry-summary-actions{width:100%;justify-content:flex-end;}
+  .entry-summary-sub{overflow-wrap:anywhere;}
   .feature-list{grid-template-columns:1fr;}
-  .summary-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .summary-grid,.mini-grid{grid-template-columns:1fr;}
+  .summary-card{padding:10px;}
+  .summary-title{font-size:20px;line-height:1.1;}
+  .summary-status-note{font-size:12px;line-height:1.55;padding:9px 10px;}
+  .summary-table-wrap table{min-width:0;width:100%;}
+  .summary-table-wrap th,.summary-table-wrap td{font-size:10.5px;padding:6px 4px;line-height:1.25;vertical-align:top;}
+  .summary-table-wrap th{letter-spacing:.045em;}
+  .summary-table-wrap th:nth-child(5),.summary-table-wrap td:nth-child(5){display:none;}
+}
+
+@media(max-width:380px){
+  .summary-table-wrap th,.summary-table-wrap td{font-size:10px;padding:5px 3px;}
+  .summary-table-wrap th:nth-child(3),.summary-table-wrap td:nth-child(3){display:none;}
+  .metric .value{font-size:14px;}
 }
 </style>
 </head>
@@ -714,7 +758,7 @@ function renderSummary(){
   const farmOk=fy||$$('.person-card').every(p=>n(p.dataset.credits)>=target&&(resMin===0||n(p.dataset.research)>=resMin));
   const statusNote=fy
     ?'✓ First Year — §5.8.3 applies. Enrollment, Farm Plan completion, baseline soil testing, and the soil testing interpretive support meeting satisfy this year\'s requirement.'
-    :(farmOk?'✓ All tracked persons meet the annual credit target.':'⚠ One or more persons have not met the annual credit target. Add learning events before renewal.');
+    :(farmOk?'✓ All tracked persons meet the annual credit target.':'⚠ Credits incomplete. One or more tracked people are below the annual target. Add learning events before renewal.');
 
   $('#summaryContent').innerHTML=`
     <div class="summary-report">
@@ -727,7 +771,7 @@ function renderSummary(){
           <div class="metric"><div class="label">Total Credits</div><div class="value">${fy?'—':grandTotal}</div><div class="small">All people</div></div>
           <div class="metric"><div class="label">Staff Required</div><div class="value">${reqStaff>0?reqStaff:'—'}</div><div class="small">20% of mgmt staff</div></div>
         </div>
-        <div class="note" style="margin-bottom:0;">${statusNote}</div>
+        <div class="note summary-status-note" style="margin-bottom:0;">${statusNote}</div>
       </div>
       <div class="summary-card">
         <h3 style="margin-bottom:10px;">Person-by-Person Results</h3>
